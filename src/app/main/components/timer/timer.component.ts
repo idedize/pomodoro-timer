@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AppPreferences } from '../../models/app-setting';
+import { PreferencesService } from '../../services/preferences.service';
 
 @Component({
   selector: 'app-timer',
@@ -15,7 +17,9 @@ export class TimerComponent implements OnInit {
     return 1;
   }
 
-  constructor() { }
+  constructor(prefsService: PreferencesService) {
+    
+  }
 
   ngOnInit(): void {
   }
