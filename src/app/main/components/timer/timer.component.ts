@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { AppPreferences } from '../../models/app-setting';
 import { PreferencesService } from '../../services/preferences.service';
+import { ChangeTaskNameDialogComponent } from '../change-task-name-dialog/change-task-name-dialog.component';
 
 @Component({
   selector: 'app-timer',
@@ -14,6 +16,7 @@ export class TimerComponent implements OnInit {
   private _selectedTime;
   private _timerId;
 
+  //#region Timer field
   get minutes(): string {
     return Math.floor(this._time / 60).toString();
   }
@@ -22,18 +25,31 @@ export class TimerComponent implements OnInit {
     let seconds = this._time % 60;
     return seconds < 10 ? `0${seconds}` : seconds.toString();
   }
+  //#endregion
 
-  constructor(prefsService: PreferencesService) {
-    prefsService.getPreferences().subscribe(r => {
+  get taskName(): string {
+    return this._prefs.taskName;
+  }
+
+  constructor(
+    private prefsService: PreferencesService,
+    private dialog: MatDialog
+  ) {
+    this.loadPrefs();
+  }
+
+  ngOnInit(): void {
+  }
+
+  loadPrefs(): void {
+    this.prefsService.getPreferences().subscribe(r => {
       this._prefs = r;
       this._time = r.pomodoro;
       this._selectedTime = r.pomodoro;
     });
   }
 
-  ngOnInit(): void {
-  }
-
+  //#region Timer functions
   start(): void {
     if (!this._timerId) {
       this.intervalHandler();
@@ -72,4 +88,15 @@ export class TimerComponent implements OnInit {
       this.stop();
     }
   }
+
+  //#endregion
+
+  openChangeTaskNameDialog(): void {
+    let dialogRef = this.dialog.open(ChangeTaskNameDialogComponent, {});
+
+    dialogRef.afterClosed().subscribe(() => {
+      this.loadPrefs();
+    });
+  }
+
 }

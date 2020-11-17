@@ -23,7 +23,7 @@ export class PreferencesService {
 
   savePreferences(prefs: AppPreferences): Observable<void> {
     localStorage.setItem(PreferencesService.prefsKey, JSON.stringify(prefs));
-    return of();
+    return of(void 0);
   }
 
   clearPreferences(): Observable<void> {

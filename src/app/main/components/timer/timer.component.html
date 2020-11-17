@@ -3,9 +3,16 @@
     <button mat-button class="mr-2" (click)="selectShort()">Short break</button>
     <button mat-button (click)="selectLong()">Long break</button>
 </div>
-<div class="row justify-content-center mt-5">
+
+<div class="row justify-content-center mt-5 user-select-none">
     <h1>{{minutes}}:{{seconds}}</h1>
 </div>
+
+<div class="row justify-content-center">
+    <div>{{taskName}}</div>
+    <a role="button" (click)="openChangeTaskNameDialog()" class="ml-1 text-dark"><i class="fa fa-cog"></i></a>
+</div>
+
 <div class="row justify-content-center mt-5">
     <button mat-button class="mr-2" (click)="start()">Start</button>
     <button mat-button class="mr-2" (click)="stop()">Stop</button>
