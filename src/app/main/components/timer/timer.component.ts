@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AppPreferences } from '../../models/app-setting';
+import { Log } from '../../models/log';
+import { LogService } from '../../services/log.service';
 import { PreferencesService } from '../../services/preferences.service';
 import { ChangeTaskNameDialogComponent } from '../change-task-name-dialog/change-task-name-dialog.component';
 
@@ -12,10 +14,12 @@ import { ChangeTaskNameDialogComponent } from '../change-task-name-dialog/change
 export class TimerComponent implements OnInit {
 
   private _prefs: AppPreferences;
+  private _logs: Array<Log>;
+  private _log: Log = new Log();
   private _time: number;
-  private _selectedTime;
+  private _selectedTime: number;
   private _timerId;
-
+  
   //#region Timer field
   get minutes(): string {
     return Math.floor(this._time / 60).toString();
@@ -33,6 +37,7 @@ export class TimerComponent implements OnInit {
 
   constructor(
     private prefsService: PreferencesService,
+    private logService: LogService,
     private dialog: MatDialog
   ) {
     this.loadPrefs();
@@ -47,11 +52,15 @@ export class TimerComponent implements OnInit {
       this._time = r.pomodoro;
       this._selectedTime = r.pomodoro;
     });
+    this.logService.getPreferences().subscribe(r => {
+      this._logs = r;
+    });
   }
 
   //#region Timer functions
   start(): void {
     if (!this._timerId) {
+      this._log.beginDate = new Date();
       this.intervalHandler();
       this._timerId = setInterval(() => this.intervalHandler(), 1000);
     }
@@ -85,6 +94,11 @@ export class TimerComponent implements OnInit {
   private intervalHandler(): void {
     this._time--;
     if (this._time == 0) {
+      this._log.endDate = new Date();
+      this._log.taskName = this.taskName;
+      this._logs.push(this._log);
+      this._log = new Log();
+      this.logService.savePreferences(this._logs);
       this.stop();
     }
   }
