@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { FaqDialogComponent } from '../faq/faq-dialog/faq-dialog.component';
 import { LogListDialogComponent } from '../log-list-dialog/log-list-dialog.component';
 
 @Component({
@@ -19,6 +20,10 @@ export class HeaderComponent implements OnInit {
       width: '1080px',
       height: 'auto'
     });
+  }
+
+  openFAQDialog(): void {
+    this.dialog.open(FaqDialogComponent);
   }
 
 }

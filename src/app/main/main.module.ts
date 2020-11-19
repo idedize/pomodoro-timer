@@ -10,6 +10,8 @@ import { TimerComponent } from './components/timer/timer.component';
 import { ChangeTaskNameDialogComponent } from './components/change-task-name-dialog/change-task-name-dialog.component';
 import { FormsModule } from '@angular/forms';
 import { LogListDialogComponent } from './components/log-list-dialog/log-list-dialog.component';
+import { FaqDialogComponent } from './components/faq/faq-dialog/faq-dialog.component';
+import { FaqElementComponent } from './components/faq/faq-element/faq-element.component';
 
 const routes: Routes = [
   { path: '', component: MainPageComponent }
@@ -21,7 +23,9 @@ const routes: Routes = [
     HeaderComponent,
     TimerComponent,
     ChangeTaskNameDialogComponent,
-    LogListDialogComponent
+    LogListDialogComponent,
+    FaqDialogComponent,
+    FaqElementComponent
   ],
   imports: [
     CommonModule,

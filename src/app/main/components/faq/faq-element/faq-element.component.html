@@ -1,0 +1,13 @@
+<p>
+    <b>{{question}}</b>
+</p>
+<p>
+    <ng-container *ngIf="answer">
+        {{answer}}<br>
+    </ng-container>
+    
+    <ng-container *ngIf="link">
+        <a [href]="link">{{!!linkName ? linkName : link}}</a>
+    </ng-container>
+</p>
+<hr>
