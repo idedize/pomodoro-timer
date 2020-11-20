@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { AppPreferences } from '../models/app-setting';
+import { AppPreferences } from '../models/app-preferences';
 import { StorageBaseService } from './storage-base.service';
 
 @Injectable({
@@ -12,5 +12,5 @@ export class PreferencesService extends StorageBaseService<AppPreferences> {
 
   constructor() {
     super(PreferencesService.prefsKey, new AppPreferences());
-  }  
+  }
 }
