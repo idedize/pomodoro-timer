@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { AppPreferences } from '../../models/app-setting';
+import { AppPreferences } from '../../models/app-preferences';
 import { Log } from '../../models/log';
 import { LogService } from '../../services/log.service';
 import { PreferencesService } from '../../services/preferences.service';
@@ -40,21 +40,33 @@ export class TimerComponent implements OnInit {
     private logService: LogService,
     private dialog: MatDialog
   ) {
-    this.loadPrefs();
+    this.prefsService.getPreferences().subscribe(r => {
+      this.onAppSettingUpdatedHandler(r);
+    });
+    this.logService.getPreferences().subscribe(r => {
+      this.onLogUpdatedHandler(r);
+    })
+
+    this.prefsService.onPreferencesUpdated().subscribe(r => {
+      this.onAppSettingUpdatedHandler(r);
+    });
+
+    this.logService.onPreferencesUpdated().subscribe(r => {
+      this.onLogUpdatedHandler(r);
+    });    
   }
 
   ngOnInit(): void {
   }
 
-  loadPrefs(): void {
-    this.prefsService.getPreferences().subscribe(r => {
-      this._prefs = r;
-      this._time = r.pomodoro;
-      this._selectedTime = r.pomodoro;
-    });
-    this.logService.getPreferences().subscribe(r => {
-      this._logs = r;
-    });
+  onAppSettingUpdatedHandler(prefs: AppPreferences): void {
+    this._prefs = prefs;
+    this._time = prefs.pomodoro * AppPreferences.secondsInMinutes;
+    this._selectedTime = prefs.pomodoro * AppPreferences.secondsInMinutes;
+  }
+
+  onLogUpdatedHandler(log: Array<Log>): void {
+    this._logs = log;
   }
 
   //#region Timer functions
@@ -77,17 +89,17 @@ export class TimerComponent implements OnInit {
   }
 
   selectPomodoro(): void {
-    this._selectedTime = this._prefs.pomodoro;
+    this._selectedTime = this._prefs.pomodoro * AppPreferences.secondsInMinutes;
     this.reset();
   }
 
   selectLong(): void {
-    this._selectedTime = this._prefs.long;
+    this._selectedTime = this._prefs.long * AppPreferences.secondsInMinutes;
     this.reset();
   }
 
   selectShort(): void {
-    this._selectedTime = this._prefs.short;
+    this._selectedTime = this._prefs.short * AppPreferences.secondsInMinutes;
     this.reset();
   }
 
@@ -106,11 +118,7 @@ export class TimerComponent implements OnInit {
   //#endregion
 
   openChangeTaskNameDialog(): void {
-    let dialogRef = this.dialog.open(ChangeTaskNameDialogComponent, {});
-
-    dialogRef.afterClosed().subscribe(() => {
-      this.loadPrefs();
-    });
+    this.dialog.open(ChangeTaskNameDialogComponent, {});
   }
 
 }

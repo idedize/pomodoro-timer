@@ -1,0 +1,32 @@
+<mat-dialog-content>
+    <form [formGroup]="settingForm">
+
+        <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Pomodoro</mat-label>
+            <input matInput type="number" formControlName="pomodoro">
+        </mat-form-field>
+        
+        <br>
+    
+        <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Short break</mat-label>
+            <input matInput type="number" formControlName="short">
+        </mat-form-field>
+    
+        <br>
+    
+        <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Long break</mat-label>
+            <input matInput type="number" formControlName="long">
+        </mat-form-field>
+    
+        <br>
+
+        <button mat-raised-button color="warn" (click)="restore()">Restore</button>
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end" class="mt-4">
+    <button mat-raised-button mat-dialog-close>Cancel</button>        
+    <button mat-raised-button color="primary" (click)="save()">Save</button>
+</mat-dialog-actions>

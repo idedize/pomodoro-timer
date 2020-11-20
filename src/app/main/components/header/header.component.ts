@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { FaqDialogComponent } from '../faq/faq-dialog/faq-dialog.component';
 import { LogListDialogComponent } from '../log-list-dialog/log-list-dialog.component';
+import { SettingDialogComponent } from '../setting-dialog/setting-dialog.component';
 
 @Component({
   selector: 'app-header',
@@ -24,6 +25,10 @@ export class HeaderComponent implements OnInit {
 
   openFAQDialog(): void {
     this.dialog.open(FaqDialogComponent);
+  }
+
+  openSettingDialog(): void {
+    this.dialog.open(SettingDialogComponent);
   }
 
 }

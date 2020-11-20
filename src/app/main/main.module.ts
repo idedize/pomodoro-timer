@@ -8,10 +8,13 @@ import { MainPageComponent } from './components/main-page/main-page.component';
 import { HeaderComponent } from './components/header/header.component';
 import { TimerComponent } from './components/timer/timer.component';
 import { ChangeTaskNameDialogComponent } from './components/change-task-name-dialog/change-task-name-dialog.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LogListDialogComponent } from './components/log-list-dialog/log-list-dialog.component';
 import { FaqDialogComponent } from './components/faq/faq-dialog/faq-dialog.component';
 import { FaqElementComponent } from './components/faq/faq-element/faq-element.component';
+import { SettingDialogComponent } from './components/setting-dialog/setting-dialog.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 const routes: Routes = [
   { path: '', component: MainPageComponent }
@@ -25,7 +28,8 @@ const routes: Routes = [
     ChangeTaskNameDialogComponent,
     LogListDialogComponent,
     FaqDialogComponent,
-    FaqElementComponent
+    FaqElementComponent,
+    SettingDialogComponent
   ],
   imports: [
     CommonModule,
@@ -33,7 +37,10 @@ const routes: Routes = [
     MatButtonModule,
     MatDialogModule,
     FormsModule,
-    MatTableModule
+    MatTableModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   entryComponents: [
     ChangeTaskNameDialogComponent
