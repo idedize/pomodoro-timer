@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Observable, of, Subject } from 'rxjs';
-import { AppPreferences } from '../models/app-preferences';
 
 @Injectable({
   providedIn: 'root'

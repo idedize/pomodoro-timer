@@ -1,0 +1,17 @@
+<div *ngIf="!isHidden" class="fixed-bottom bg-light">
+    <div class="container">
+        <div class="row m-0 justify-content-between">
+            <div><b>Can I show a notification?</b></div>
+            <div>
+                <a role="button" (click)="close()">
+                    <i class="fa fa-times"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="row m-0 mt-3 pb-2">
+            <button mat-raised-button color="primary" class="mr-3" (click)="notificationService.askPermission()">Yes</button>
+            <button mat-raised-button color="warn" (click)="close()">No</button>
+        </div>
+    </div>
+</div>

@@ -15,6 +15,7 @@ import { FaqElementComponent } from './components/faq/faq-element/faq-element.co
 import { SettingDialogComponent } from './components/setting-dialog/setting-dialog.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { NotificationPermissionBottomBarComponent } from './components/notification-permission-bottom-bar/notification-permission-bottom-bar.component';
 
 const routes: Routes = [
   { path: '', component: MainPageComponent }
@@ -29,7 +30,8 @@ const routes: Routes = [
     LogListDialogComponent,
     FaqDialogComponent,
     FaqElementComponent,
-    SettingDialogComponent
+    SettingDialogComponent,
+    NotificationPermissionBottomBarComponent
   ],
   imports: [
     CommonModule,

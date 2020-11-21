@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AppPreferences } from '../../models/app-preferences';
 import { Log } from '../../models/log';
 import { LogService } from '../../services/log.service';
+import { NotificationService } from '../../services/notification.service';
 import { PreferencesService } from '../../services/preferences.service';
 import { ChangeTaskNameDialogComponent } from '../change-task-name-dialog/change-task-name-dialog.component';
 
@@ -38,7 +39,8 @@ export class TimerComponent implements OnInit {
   constructor(
     private prefsService: PreferencesService,
     private logService: LogService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private notificationService: NotificationService
   ) {
     this.prefsService.getPreferences().subscribe(r => {
       this.onAppSettingUpdatedHandler(r);
@@ -111,6 +113,9 @@ export class TimerComponent implements OnInit {
       this._logs.push(this._log);
       this._log = new Log();
       this.logService.savePreferences(this._logs);
+
+      this.notificationService.notify("The timer is over");
+
       this.stop();
     }
   }

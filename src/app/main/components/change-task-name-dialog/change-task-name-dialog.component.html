@@ -1,5 +1,8 @@
 <mat-dialog-content>
-    <input id="name" type="text" [(ngModel)]="name">
+    <mat-form-field class="w-100">
+        <mat-label>Task name</mat-label>
+        <input matInput id="name" type="text" [(ngModel)]="name">
+    </mat-form-field>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
     <button mat-raised-button mat-dialog-close>Cancel</button>
