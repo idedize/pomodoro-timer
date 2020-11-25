@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Title } from '@angular/platform-browser';
 import { environment } from 'src/environments/environment';
 import { AppPreferences } from '../../models/app-preferences';
+import { appName } from '../../models/global';
 import { Log } from '../../models/log';
 import { PeriodEnum } from '../../models/period.enum';
 import { LogService } from '../../services/log.service';
@@ -116,7 +117,7 @@ export class TimerComponent implements OnInit {
 
       this.updatePeriod();
 
-      this.title.setTitle(`${environment.appName} ${PeriodEnum[this._currentPeriod]}`);
+      this.title.setTitle(`${appName} ${PeriodEnum[this._currentPeriod]}`);
 
       this._log.endDate = new Date();
       this._log.taskName = this.taskName;
