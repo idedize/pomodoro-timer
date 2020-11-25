@@ -68,8 +68,7 @@ export class TimerComponent implements OnInit {
 
   onAppSettingUpdatedHandler(prefs: AppPreferences): void {
     this._prefs = prefs;
-    //this._time = prefs.pomodoro * AppPreferences.secondsInMinute;
-    this._time = 3;
+    this._time = prefs.pomodoro * AppPreferences.secondsInMinute;
     this._selectedTime = prefs.pomodoro * AppPreferences.secondsInMinute;
   }
 
