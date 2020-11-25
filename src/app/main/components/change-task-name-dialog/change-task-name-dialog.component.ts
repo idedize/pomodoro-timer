@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { AppPreferences } from '../../models/app-preferences';
 import { PreferencesService } from '../../services/preferences.service';
@@ -16,11 +15,10 @@ export class ChangeTaskNameDialogComponent implements OnInit {
   name: string = '';
 
   constructor(private prefsService: PreferencesService,
-    private dialogRef: MatDialogRef<ChangeTaskNameDialogComponent>) {
-    prefsService.getPreferences().subscribe(r => {
-      this._prefs = r;
-      this.name = r.taskName;
-    });
+    private dialogRef: MatDialogRef<ChangeTaskNameDialogComponent>
+  ) {
+    this._prefs = prefsService.getPreferences();
+    this.name = this._prefs.taskName;
   }
 
   ngOnInit(): void {
@@ -28,8 +26,7 @@ export class ChangeTaskNameDialogComponent implements OnInit {
 
   saveTaskName(): void {
     this._prefs.taskName = this.name;
-    this.prefsService.savePreferences(this._prefs).subscribe(() => {
-      this.dialogRef.close();
-    });
+    this.prefsService.savePreferences(this._prefs);
+    this.dialogRef.close();
   }
 }

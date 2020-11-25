@@ -14,10 +14,8 @@ export class LogListDialogComponent implements OnInit {
   displayedColumns: string[] = ['beginDate', 'endDate', 'taskName'];
 
   constructor(logService: LogService) {
-    logService.getPreferences().subscribe(r => {
-      this.logs = r;
-    });
-   }
+    this.logs = logService.getPreferences();
+  }
 
   ngOnInit(): void {
   }

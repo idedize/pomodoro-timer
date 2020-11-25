@@ -42,20 +42,12 @@ export class TimerComponent implements OnInit {
     private dialog: MatDialog,
     private notificationService: NotificationService
   ) {
-    this.prefsService.getPreferences().subscribe(r => {
-      this.onAppSettingUpdatedHandler(r);
-    });
-    this.logService.getPreferences().subscribe(r => {
-      this.onLogUpdatedHandler(r);
-    })
+    this.onAppSettingUpdatedHandler(this.prefsService.getPreferences());
+    this._logs = this.logService.getPreferences();
 
     this.prefsService.onPreferencesUpdated().subscribe(r => {
       this.onAppSettingUpdatedHandler(r);
     });
-
-    this.logService.onPreferencesUpdated().subscribe(r => {
-      this.onLogUpdatedHandler(r);
-    });    
   }
 
   ngOnInit(): void {
@@ -63,8 +55,8 @@ export class TimerComponent implements OnInit {
 
   onAppSettingUpdatedHandler(prefs: AppPreferences): void {
     this._prefs = prefs;
-    this._time = prefs.pomodoro * AppPreferences.secondsInMinutes;
-    this._selectedTime = prefs.pomodoro * AppPreferences.secondsInMinutes;
+    this._time = prefs.pomodoro * AppPreferences.secondsInMinute;
+    this._selectedTime = prefs.pomodoro * AppPreferences.secondsInMinute;
   }
 
   onLogUpdatedHandler(log: Array<Log>): void {
@@ -91,17 +83,17 @@ export class TimerComponent implements OnInit {
   }
 
   selectPomodoro(): void {
-    this._selectedTime = this._prefs.pomodoro * AppPreferences.secondsInMinutes;
+    this._selectedTime = this._prefs.pomodoro * AppPreferences.secondsInMinute;
     this.reset();
   }
 
   selectLong(): void {
-    this._selectedTime = this._prefs.long * AppPreferences.secondsInMinutes;
+    this._selectedTime = this._prefs.long * AppPreferences.secondsInMinute;
     this.reset();
   }
 
   selectShort(): void {
-    this._selectedTime = this._prefs.short * AppPreferences.secondsInMinutes;
+    this._selectedTime = this._prefs.short * AppPreferences.secondsInMinute;
     this.reset();
   }
 

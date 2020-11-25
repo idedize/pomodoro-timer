@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -15,25 +15,23 @@ export abstract class StorageBaseService<T> {
     return this.onPreferencesUpdatedSubject.asObservable();
   }
 
-  getPreferences(): Observable<T> {
+  getPreferences(): T {
     let prefs = localStorage.getItem(this.prefsKey);
 
     if (!!prefs) {
-      return of<T>(JSON.parse(prefs) as T);
+      return JSON.parse(prefs) as T;
     }
 
-    return of<T>(this.defaultPrefs);
+    return this.defaultPrefs;
   }
 
-  savePreferences(prefs: T): Observable<void> {
+  savePreferences(prefs: T): void {
     localStorage.setItem(this.prefsKey, JSON.stringify(prefs));
     this.onPreferencesUpdatedSubject.next(prefs);
-    return of(void 0);
   }
 
-  clearPreferences(): Observable<void> {
+  clearPreferences(): void {
     localStorage.removeItem(this.prefsKey);
     this.onPreferencesUpdatedSubject.next(this.defaultPrefs);
-    return of(void 0);
   }
 }
