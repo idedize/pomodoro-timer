@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Title } from '@angular/platform-browser';
+import { environment } from 'src/environments/environment';
 import { AppPreferences } from '../../models/app-preferences';
 import { Log } from '../../models/log';
+import { PeriodEnum } from '../../models/period.enum';
 import { LogService } from '../../services/log.service';
 import { NotificationService } from '../../services/notification.service';
 import { PreferencesService } from '../../services/preferences.service';
@@ -19,8 +22,9 @@ export class TimerComponent implements OnInit {
   private _log: Log = new Log();
   private _time: number;
   private _selectedTime: number;
+  private _currentPeriod: PeriodEnum = PeriodEnum.Pomodoro;
   private _timerId;
-  
+
   //#region Timer field
   get minutes(): string {
     return Math.floor(this._time / 60).toString();
@@ -29,6 +33,10 @@ export class TimerComponent implements OnInit {
   get seconds(): string {
     let seconds = this._time % 60;
     return seconds < 10 ? `0${seconds}` : seconds.toString();
+  }
+
+  get remainTime(): string {
+    return `${this.minutes}:${this.seconds}`
   }
   //#endregion
 
@@ -40,7 +48,8 @@ export class TimerComponent implements OnInit {
     private prefsService: PreferencesService,
     private logService: LogService,
     private dialog: MatDialog,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private title: Title
   ) {
     this.onAppSettingUpdatedHandler(this.prefsService.getPreferences());
     this._logs = this.logService.getPreferences();
@@ -53,14 +62,15 @@ export class TimerComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onAppSettingUpdatedHandler(prefs: AppPreferences): void {
-    this._prefs = prefs;
-    this._time = prefs.pomodoro * AppPreferences.secondsInMinute;
-    this._selectedTime = prefs.pomodoro * AppPreferences.secondsInMinute;
+  updatePeriod(): void {
+    this._currentPeriod = this._currentPeriod == PeriodEnum.Pomodoro ? PeriodEnum.Break : PeriodEnum.Pomodoro;
   }
 
-  onLogUpdatedHandler(log: Array<Log>): void {
-    this._logs = log;
+  onAppSettingUpdatedHandler(prefs: AppPreferences): void {
+    this._prefs = prefs;
+    //this._time = prefs.pomodoro * AppPreferences.secondsInMinute;
+    this._time = 3;
+    this._selectedTime = prefs.pomodoro * AppPreferences.secondsInMinute;
   }
 
   //#region Timer functions
@@ -99,14 +109,21 @@ export class TimerComponent implements OnInit {
 
   private intervalHandler(): void {
     this._time--;
+
+    this.title.setTitle(this.remainTime);
+
     if (this._time == 0) {
+      this.notificationService.notify(`The ${PeriodEnum[this._currentPeriod]} is over`);
+
+      this.updatePeriod();
+
+      this.title.setTitle(`${environment.appName} ${PeriodEnum[this._currentPeriod]}`);
+
       this._log.endDate = new Date();
       this._log.taskName = this.taskName;
       this._logs.push(this._log);
       this._log = new Log();
       this.logService.savePreferences(this._logs);
-
-      this.notificationService.notify("The timer is over");
 
       this.stop();
     }
